@@ -1,17 +1,14 @@
 <?php
-$host = $_ENV['MYSQLHOST'];
-$user = $_ENV['MYSQLUSER'];
-$pass = $_ENV['MYSQLPASSWORD'];
-$db   = $_ENV['MYSQLDATABASE'];
-$port = $_ENV['MYSQLPORT'];
+$host = getenv("MYSQLHOST");
+$user = getenv("MYSQLUSER");
+$pass = getenv("MYSQLPASSWORD");
+$db   = getenv("MYSQLDATABASE");
+$port = getenv("MYSQLPORT");
 
-try {
-    $conn = new PDO(
-        "mysql:host=$host;port=$port;dbname=$db;charset=utf8",
-        $user,
-        $pass
-    );
-    echo "✅ Conectado a la base de datos correctamente";
-} catch (Exception $e) {
-    echo "❌ Error de conexión: " . $e->getMessage();
+$conn = new mysqli($host, $user, $pass, $db, $port);
+
+if ($conn->connect_error) {
+    die("❌ Error de conexión: " . $conn->connect_error);
 }
+
+echo "✅ Conectado a MySQL correctamente";
